@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Email Logger</title>
+    <style>
+      body { font-family: Arial; width: 250; padding: 10px; text-align: center; }
+      input, label { display: block; margin: 8px; width: 100%; }
+      button { padding: 8px 12px; border: none; background-color: #7eb0ff; color: white; border-radius: 6px; cursor: pointer; }
+      button:hover { background-color: #053aad; }
+    </style>
+  </head>
+  <body>
+    <h3>Run Gmail Logger</h3>
+
+    <label> Sheet ID:</label>
+    <input type="text" id="sheetId" placeholder="Enter Google Sheet ID"/>
+
+    <label>Sheet Name:</label>
+    <input type="text" id="sheetName" placeholder="Enter sheet name">
+    
+    <label><input type="checkbox" id="clearPrevious"> Clear previous data</label>
+
+    <button id="run_btn">Run</button>
+    <p id="status"></p>
+    <script src="popup.js"></script>
+  </body>
+</html>

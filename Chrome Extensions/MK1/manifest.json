@@ -1,0 +1,12 @@
+{
+"manifest_version": 3,
+  "name": "Run Email Logger",
+  "description": "Run the Apps Script",
+  "version": "1.0",
+  "permissions": ["activeTab", "storage", "scripting"],
+  "action": 
+  {
+    "deafault_popup": "popup.html",
+    "default_title": "Run Email Logger mk1"
+  }
+}
