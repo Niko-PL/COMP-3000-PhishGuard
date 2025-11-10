@@ -4,9 +4,10 @@
   "description": "Run the Apps Script",
   "version": "1.0",
   "permissions": ["activeTab", "storage", "scripting"],
+    "host_permissions": ["https://script.google.com/macros/*"],
   "action": 
   {
-    "deafault_popup": "popup.html",
+    "default_popup": "popup.html",
     "default_title": "Run Email Logger mk1"
   }
 }
