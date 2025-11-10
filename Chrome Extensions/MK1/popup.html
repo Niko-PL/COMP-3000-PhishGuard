@@ -10,19 +10,28 @@
         text-align: center; 
         margin: 0;
       }
-      input, label { 
+      /* for all input fields */
+      input, select, label { 
         display: block; 
         margin: 8px 0; 
         width: 100%; 
       }
+      /* for all text input */
       input[type="text"] {
         box-sizing: border-box;
         padding: 6px;
       }
-      input[type="text"], input[type="number"] {
+      /* for select (drop down) */
+      select { 
         box-sizing: border-box;
+        width: 50%;
         padding: 6px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        text-align: center;
       }
+      /* for number of emails recorded */
       input[type="number"] {
         width: 69%;
         margin-left: auto;
@@ -61,6 +70,18 @@
     <label>Number of Emails Recorded:</label>
     <input type="number" id="emails_recorded" min="1" max="1000000" placeholder="Enter number of emails to record"/>
     
+    <label>Time Range:</label>
+    <select id="time_range">
+      <option value="24h">1 day (24h)</option>
+      <option value="1 week">1 week</option>
+      <option value="2 weeks">2 weeks</option>
+      <option value="1 month">1 month</option>
+      <option value="3 months">3 months</option>
+      <option value="6 months">6 months</option>
+      <option value="1 year">1 year</option>
+      <option value="all time">All time</option>
+    </select>
+
     <label><input type="checkbox" id="clear_sheet"> Clear previous data</label>
 
     <button id="run_btn">Run</button>
