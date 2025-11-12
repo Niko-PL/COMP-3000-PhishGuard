@@ -19,12 +19,14 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the DOM is fully
         const status_box = document.getElementById("status"); //status box element
         status_box.textContent = "Initiating...";
 
-        let sheetId, sheet_name, clear_prev, webAppURL; //initiate variables
+        let sheetId, sheet_name, clear_prev, webAppURL, time_range, emails_recorded; //initiate variables
         try {
             sheetId = document.getElementById("sheetId").value.trim(); //assign input values to variables
             sheet_name = document.getElementById("sheet_name").value.trim();
+            time_range = document.getElementById("time_range").value.trim();
             clear_prev = document.getElementById("clear_sheet").checked; 
             emails_recorded = document.getElementById("emails_recorded").value.trim();
+            time_range = document.getElementById("time_range").value.trim();
             
             if (emails_recorded < 1 || emails_recorded > 1000000) {
                 status_box.textContent = "Invalid number of emails recorded";
@@ -46,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the DOM is fully
             console.log("With parameters:", { sheetId, sheet_name, clear_prev, emails_recorded });
             
 
-            const call = `${webAppURL}?sheetId=${encodeURIComponent(sheetId)}&sheet_name=${encodeURIComponent(sheet_name)}&clear_sheet=${(clear_prev.toString())}&emails_recorded=${encodeURIComponent(emails_recorded)}`;
+            const call = `${webAppURL}?sheetId=${encodeURIComponent(sheetId)}&sheet_name=${encodeURIComponent(sheet_name)}&clear_sheet=${(clear_prev.toString())}&emails_recorded=${encodeURIComponent(emails_recorded)}&time_range=${encodeURIComponent(time_range)}`;
             const response = await fetch(call, {redirect: 'follow'}); 
             console.log("Got response:", response);
             
