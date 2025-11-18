@@ -12,7 +12,13 @@
     "256": "images/Guard_MK1.png"
   },
   "permissions": ["activeTab", "storage", "scripting"],
-    "host_permissions": ["https://script.google.com/macros/*"],
+  "host_permissions": ["https://script.google.com/macros/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["highlight.js"]
+    }
+  ],
   "action": 
   {
     "default_popup": "popup.html",
