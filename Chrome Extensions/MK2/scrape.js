@@ -1,7 +1,10 @@
 
-import Web_APP_URL from './SECRETS.js';
+import Web_APP_URL1 from './SECRETS.js';
+const Web_APP_URL = Web_APP_URL1;
+console.log("scrape script loaded");
 
-console.log("Popup script loaded");
+// this runs the google apps script to get the emails and save them to a google sheet
+
 
 document.addEventListener('DOMContentLoaded', () => { // Ensure the DOM is fully loaded
     console.log("DOM Content Loaded");
@@ -19,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the DOM is fully
         const status_box = document.getElementById("status"); //status box element
         status_box.textContent = "Initiating...";
 
-        let sheetId, sheet_name, clear_prev, Web_APP_URL, time_range, emails_recorded; //initiate variables
+        let sheetId, sheet_name, clear_prev, time_range, emails_recorded; //initiate variables
         try {
             sheetId = document.getElementById("sheetId").value.trim(); //assign input values to variables
             sheet_name = document.getElementById("sheet_name").value.trim();
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the DOM is fully
             console.log("Making fetch request to:", Web_APP_URL); 
             console.log("With parameters:", { sheetId, sheet_name, clear_prev, emails_recorded });
             
-            const taskId = "get_emails";
+            const taskId = "get_emails"; // sets yask id
             const call = `${Web_APP_URL}?&taskId=${encodeURIComponent(taskId)}&sheetId=${encodeURIComponent(sheetId)}&sheet_name=${encodeURIComponent(sheet_name)}&clear_sheet=${(clear_prev.toString())}&emails_recorded=${encodeURIComponent(emails_recorded)}&time_range=${encodeURIComponent(time_range)}`;
             const response = await fetch(call, {redirect: 'follow'}); 
             console.log("Got response:", response);

@@ -1,8 +1,8 @@
 {
 "manifest_version": 3,
-  "name": "Email Logger Mk2",
-  "description": "Run the Apps Script",
-  "version": "1.5",
+  "name": "PhishGUard MK2",
+  "description": "Version MK2 1.0 ",
+  "version": "1.0",
   "icons": {
     "16": "images/Guard_MK1.png",
     "32": "images/Guard_MK1.png",
@@ -17,13 +17,13 @@
   "content_scripts": [
     {
       "matches": ["https://mail.google.com/*"],
-      "js": ["highlight.js","test.js","Button_controler.js"]
+      "js": ["test.js","Button_controler.js"]
     }
   ],
   "action": 
   {
     "default_popup": "popup.html",
-    "default_title": "Email Logger Mk2",
+    "default_title": "PhishGuard Mk2",
     "default_icon": {
       "16": "images/Guard_MK1.png",
       "32": "images/Guard_MK1.png",
