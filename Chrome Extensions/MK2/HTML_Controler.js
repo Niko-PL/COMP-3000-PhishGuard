@@ -1,6 +1,7 @@
 //here we will control the buttons on the popup.html page
 //it also controlls html
 // it is not injected so does not have access to the DOM
+//changed 
 
 document.addEventListener('DOMContentLoaded', () => { // Ensure the external extension DOM is fully loaded
     console.log("DOM Content Loaded");
@@ -58,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
         return new Promise((resolve) => {
             chrome.scripting.executeScript({
                 target: { tabId: tabID },
-                files: ["Bad_Words_List.js","highlight_words.js"]
+                files: ["Bad_Words_List.js","highlight_words.js","Warnings_List.js"]
             },
             ()=> {
                 if (chrome.runtime.lastError) {  //arrow function to check for errors

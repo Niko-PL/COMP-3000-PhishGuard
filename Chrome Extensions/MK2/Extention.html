@@ -81,10 +81,10 @@
         background-color: #1f2a3f;
       }
       .settings-section-hidden{
-        display: none;
+        display: none; /* set as hidden to start */
       }
-      .in-line{
-        display: flex;
+      .in-line{ /* for the logo, title, and settings button */
+        display: flex; /* display as flex to align items */
         align-items: center;
         justify-content: space-between;
         gap: 10px;
@@ -132,6 +132,6 @@
     <button id="run_highlighter">Run_Highlighter</button>
     <button id="run_getHTML">RUN_GET_HTML</button>
     <p id="status"></p>
-    <script src="Button_controler.js"></script>
+    <script src="HTML_Controler.js"></script>
   </body>
 </html>

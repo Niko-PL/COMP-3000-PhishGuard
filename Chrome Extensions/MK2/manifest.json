@@ -17,7 +17,7 @@
   "content_scripts": [
     {
       "matches": ["https://mail.google.com/*"],
-      "js": ["test.js","Button_controler.js"]
+      "js": ["test.js","Highlight_Words.js"]
     }
   ],
   "action": 
