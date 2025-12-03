@@ -12,6 +12,28 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
     const Status = document.getElementById("status");
     let tabID = null;
 
+    //settings UI contorleer
+    const Settings_Button = document.getElementById("settings_button");
+    const Settings_Section = document.getElementById("settings_section");
+
+    if (!Settings_Button || !Settings_Section) { //if settings button or section not found, exit
+        console.error("Settings button or section not found!");
+        return;
+    }
+    else{
+        console.log("Settings button and section found");
+    }
+    const Settings_Expander = () => { //function to toggle the settings section visibility
+        console.log("Settings button clicked");
+        const SS_Hidden = Settings_Section.classList.toggle("settings-section-hidden"); //get the state of the settings section
+        console.log("Settings section hidden: ", SS_Hidden); 
+        Settings_Section.setAttribute("aria-hidden", String(SS_Hidden));  //sets it to the current state
+        Settings_Button.setAttribute("aria-expanded", String(!SS_Hidden));  //sets it to the opposite of the current state
+    };
+    Settings_Button.addEventListener("click", Settings_Expander); //add event listener to the settings button (little cog)
+
+
+    //buttons contorleer
     if (!Button_HTML || !Button_Highlight || !Button_Scraper || !Status) {
         console.error("Button or Status not found!");
         return;  //if ui not loaded dont do anything

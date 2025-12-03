@@ -40,7 +40,7 @@
         text-align: center;
       }
       button {  /* for all button */
-        padding: 8px 12px; 
+        padding: 8px; 
         border: none; 
         background-color: #5f84ff; 
         color: white; 
@@ -56,41 +56,76 @@
         min-height: 20px;
       }
       #logo { /* for logo */
-        max-width: 128px;
-        max-height: 128px;
+        max-width: 64px;
+        max-height: 64px;
         height: auto;
         width: auto;
-        margin: 0 auto 10px;
+        margin: 0 10px 0 0;
         display: block;
       }
+      h3 {
+        margin: 0;
+        flex: 1;
+        text-align: left;
+      }
+      .settings-button{
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        background-color: #3b4a68;
+        margin-top: 0;
+      }
+      .settings-button:hover{
+        background-color: #1f2a3f;
+      }
+      .settings-section-hidden{
+        display: none;
+      }
+      .in-line{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+      }
+
     </style>
   </head>
   <body>
-    <img id="logo" src="images/Guard_MK1.png" alt="Guard MK1 Logo">
-    <h3>Gmail Logger Mk2</h3>
-    <h5>Keep empty for defaults</h5>
-
-    <label> Sheet ID:</label>
-    <input type="text" id="sheetId" placeholder="Enter Google Sheet ID"/>
-
-    <label>Sheet Name:</label>
-    <input type="text" id="sheet_name" placeholder="Enter sheet name">
-
-    <label>Number of Emails Recorded:</label>
-    <input type="number" id="emails_recorded" min="1" max="1000000" placeholder="Enter number of emails to record"/>
+    <div class="in-line">
+      <img id="logo" src="images/Guard_MK1.png" alt="Guard MK1 Logo">
+      <h3>Gmail Logger Mk2</h3>
+      <button type="button" class="settings-button" id="settings_button" aria-expanded="false">&#9881;</button>
+    </div>
     
-    <label>Time Range:</label>
-    <select id="time_range">
-      <option value="1">1 day (24h)</option>
-      <option value="7">1 week</option>
-      <option value="14">2 weeks</option>
-      <option value="30">1 month</option>
-      <option value="90">3 months</option>
-      <option value="180">6 months</option>
-      <option value="365">1 year</option>
-      <option value="0">All time</option>
-    </select>
 
+    
+    
+    <div id= settings_section class="settings-section-hidden" aria-hidden="true">
+      <h5>Keep empty for defaults</h5>
+      <label> Sheet ID:</label>
+      <input type="text" id="sheetId" placeholder="Enter Google Sheet ID"/>
+
+      <label>Sheet Name:</label>
+      <input type="text" id="sheet_name" placeholder="Enter sheet name">
+      
+      <label>Number of Emails Recorded:</label>
+      <input type="number" id="emails_recorded" min="1" max="1000000" placeholder="Enter number of emails to record"/>
+      
+      <label>Time Range:</label>
+      <select id="time_range">
+        <option value="1">1 day (24h)</option>
+        <option value="7">1 week</option>
+        <option value="14">2 weeks</option>
+        <option value="30">1 month</option>
+        <option value="90">3 months</option>
+        <option value="180">6 months</option>
+        <option value="365">1 year</option>
+        <option value="0">All time</option>
+      </select>
+    </div>
     <label><input type="checkbox" id="clear_sheet"> Clear previous data</label>
 
     <button id="run_scraper">Run_Scraper</button>
