@@ -7,15 +7,17 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
     console.log("DOM Content Loaded");
     console.log("Content script loaded on:", window.location.href);
 
-    const Button_HTML = document.getElementById("run_getHTML");
-    const Button_Highlight = document.getElementById("run_highlighter");
-    const Button_Scraper = document.getElementById("run_scraper");
-    const Status = document.getElementById("status");
-    let tabID = null;
+
 
     //settings UI contorleer
+    //------------------------------------------------------------------
+    //in the future simplify this section as you use the same code innit
+    //------------------------------------------------------------------
     const Settings_Button = document.getElementById("settings_button");
     const Settings_Section = document.getElementById("settings_section");
+
+    const Security_Button = document.getElementById("security_button");
+    const Security_Section = document.getElementById("security_section");
 
     if (!Settings_Button || !Settings_Section) { //if settings button or section not found, exit
         console.error("Settings button or section not found!");
@@ -24,15 +26,69 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
     else{
         console.log("Settings button and section found");
     }
+    
     const Settings_Expander = () => { //function to toggle the settings section visibility
         console.log("Settings button clicked");
-        const SS_Hidden = Settings_Section.classList.toggle("settings-section-hidden"); //get the state of the settings section
-        console.log("Settings section hidden: ", SS_Hidden); 
-        Settings_Section.setAttribute("aria-hidden", String(SS_Hidden));  //sets it to the current state
-        Settings_Button.setAttribute("aria-expanded", String(!SS_Hidden));  //sets it to the opposite of the current state
-    };
-    Settings_Button.addEventListener("click", Settings_Expander); //add event listener to the settings button (little cog)
+        const SS_Hidden_Status = Settings_Section.classList.toggle("settings-section-hidden"); //get the state of the settings section
 
+        if (!Security_Section.classList.toggle("security-section-hidden")){ //hide security section 
+            console.log("Security section is showing not will be hidden");
+            Security_Section.setAttribute("aria-hidden", String(!Security_Section.classList.toggle("security-section-hidden")));  //sets it to the current state
+            Security_Button.setAttribute("aria-expanded", String(Security_Section.classList.toggle("security-section-hidden")));  //sets it to the opposite of the current state
+        }
+        else if (!SS_Hidden_Status){ // settings section is showing so set it to hidden
+            Settings_Section.setAttribute("aria-hidden", String(!SS_Hidden_Status));  //sets it to the current state
+            Settings_Button.setAttribute("aria-expanded", String(SS_Hidden_Status));  //sets it to the opposite of the current state
+        }
+        else{
+            Settings_Section.setAttribute("aria-hidden", String(SS_Hidden_Status));  //sets it to the current state
+            Settings_Button.setAttribute("aria-expanded", String(!SS_Hidden_Status));  //sets it to the opposite of the current state
+        }
+        console.log("Settings section shown: ", SS_Hidden_Status);
+        console.log("Security section shown: ", Security_Section.classList.toggle("security-section-hidden"));
+    };
+    
+    //security UI contorleer
+    
+    if (!Security_Button || !Security_Section) { //if security button or section not found, exit
+        console.error("Security button or section not found!");
+        return;
+    }
+    else{
+        console.log("Security button and section found");
+    }
+    const Security_Expander = () => { //function to toggle the security section visibility
+        console.log("Security button clicked");
+        const SS_Hidden_Status = Security_Section.classList.toggle("security-section-hidden"); //get the state of the security section
+        
+        if (!Settings_Section.classList.toggle("settings-section-hidden")){ //hide settings section 
+            console.log("Settings section is showing not will be hidden");
+            Settings_Section.setAttribute("aria-hidden", String(!Settings_Section.classList.toggle("settings-section-hidden")));  //sets it to the current state
+            Settings_Button.setAttribute("aria-expanded", String(Settings_Section.classList.toggle("settings-section-hidden")));  //sets it to the opposite of the current state
+        }
+        else if (!SS_Hidden_Status){ // security section is showing so set it to hidden
+            Security_Section.setAttribute("aria-hidden", String(!SS_Hidden_Status));  //sets it to the current state
+            Security_Button.setAttribute("aria-expanded", String(SS_Hidden_Status));  //sets it to the opposite of the current state
+            
+        }
+        else{
+            Security_Section.setAttribute("aria-hidden", String(SS_Hidden_Status));  //sets it to the current state
+            Security_Button.setAttribute("aria-expanded", String(!SS_Hidden_Status));  //sets it to the opposite of the current state
+        }
+        console.log("Security section shown: ", SS_Hidden_Status);
+        console.log("Settings section shown: ", Settings_Section.classList.toggle("security-section-hidden"));
+       
+
+    };
+   
+
+
+    //buttons and status contorleer
+    const Button_HTML = document.getElementById("run_getHTML");
+    const Button_Highlight = document.getElementById("run_highlighter");
+    const Button_Scraper = document.getElementById("run_scraper");
+    const Status = document.getElementById("status");
+    let tabID = null;
 
     //buttons contorleer
     if (!Button_HTML || !Button_Highlight || !Button_Scraper || !Status) {
@@ -194,7 +250,9 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
         Update_Status("Scraper Initiating...",true,true);
         MAIN(); //inject the scripts into the tab
     });
-
+    
+    Settings_Button.addEventListener("click", Settings_Expander); //add event listener to the settings button (little cog)
+    Security_Button.addEventListener("click", Security_Expander); //add event listener to the security button (little shield)
     console.log("Buttons and status loaded and event listeners added");
 });
 

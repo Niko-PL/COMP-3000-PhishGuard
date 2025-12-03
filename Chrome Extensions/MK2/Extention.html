@@ -74,13 +74,16 @@
         align-items: center;
         justify-content: center;
         display: flex;
-        background-color: #3b4a68;
+        background-color: #4b5e85;
         margin-top: 0;
       }
       .settings-button:hover{
-        background-color: #1f2a3f;
+        background-color: #161e2e;
       }
       .settings-section-hidden{
+        display: none; /* set as hidden to start */
+      }
+      .security-section-hidden{
         display: none; /* set as hidden to start */
       }
       .in-line{ /* for the logo, title, and settings button */
@@ -98,9 +101,14 @@
       <img id="logo" src="images/Guard_MK1.png" alt="Guard MK1 Logo">
       <h3>Gmail Logger Mk2</h3>
       <button type="button" class="settings-button" id="settings_button" aria-expanded="false">&#9881;</button>
+      <button type="button" class="settings-button" id="security_button" aria-expanded="false">&#128737;</button>
     </div>
-    
 
+    
+    <div id="security_section" class="security-section-hidden" aria-hidden="true">
+      <h5>Security Settings</h5>
+      <h6>HERE SECURITY SETTINGS</h6>
+    </div>
     
     
     <div id= settings_section class="settings-section-hidden" aria-hidden="true">
