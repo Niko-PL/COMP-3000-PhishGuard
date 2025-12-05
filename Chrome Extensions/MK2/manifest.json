@@ -1,8 +1,8 @@
 {
 "manifest_version": 3,
-  "name": "PhishGUard MK2",
-  "description": "Version MK2 1.0 ",
-  "version": "1.1",
+  "name": "Phish-Hussar MK2",
+  "description": "Version MK2 1.2 ",
+  "version": "1.2",
   "icons": {
     "16": "images/Guard_MK1.png",
     "32": "images/Guard_MK1.png",
@@ -23,7 +23,7 @@
   "action": 
   {
     "default_popup": "Extention.html",
-    "default_title": "PhishGuard Mk2",
+    "default_title": "Phish-Hussar Mk2",
     "default_icon": {
       "16": "images/Guard_MK1.png",
       "32": "images/Guard_MK1.png",
