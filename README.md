@@ -1,1 +1,1 @@
-# COMP-3000-PhishGuard
+# COMP-3000-PhishXXX
