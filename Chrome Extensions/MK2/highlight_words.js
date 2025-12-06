@@ -1,10 +1,46 @@
 //this is the script that highlights the words in the email body
 
 
-const Bad_Words =  (typeof window !== "undefined" && window.BAD_WORDS) || [];
+let Bad_Words =  (typeof window !== "undefined" && window.BAD_WORDS) || [];
+let Warnings = (typeof window !== "undefined" && window.Warnings_Mini_DB) || [];
+let Warnings_BACKUP = "Potential Phishing please be careful and verify Sender and Contents (no reason identified)";
 
-const BAD_WORDS_Class = "phishGuard-highlighted-word";
+let BAD_WORDS_Class = "PhishHussar-highlighted-word";
+let Style_Name = "PhishHussar-highlight-css-1"; //style name to inject (unique to avoid conflicts)
+let WARNING_CLASS = "PhishHussar-warning-message";
+
+let warning_message = null; //global variable for warning message user is hovering over
+
 console.log("Bad Words:", Bad_Words);
+
+
+
+
+
+Get_Warning_Message = (id) => {
+    if (Warnings.length > 0) { //if warnings are found return the warning message
+        return Warnings[id];
+    }
+    else { //if no warnings are found return the backup message
+        return Warnings_BACKUP;
+    }
+}
+
+Show_Warning_Message = (id) => {}
+
+
+Hide_Warning_Message = () => {
+    if (warning_message != null && warning_message.classList.contains("visible")) { //if you can see it then remove it
+        warning_message.classList.remove("visible");
+        warning_message = null;
+    }
+}
+
+Hover_Warning_Message = (message) => {
+    Show_Warning_Message(message);
+}
+
+Attach_Warning_Message_Event_Listeners = (node) => {}
 
 
 Word_Regex = () => {
@@ -76,36 +112,55 @@ Highlight_Words = (body,regex) => { //body == Email_Body <.a3s>
                 return;
             }
 
-            const original_text = node.textContent;
-            const replaced = original_text.replace(regex, match => {
+            const Orignial_Text = node.textContent;
+            const New_Text = Orignial_Text.replace(regex, match => {
                 COUNT_BAD_WORDS++;
-                return `<span class="${BAD_WORDS_Class}">${match}</span>`;
+                const id = 1
+                return `<span class="${BAD_WORDS_Class}" warning-id="${id}">${match}</span>`;
             });
 
-            if (replaced !== original_text) {
-                // Convert the HTML string into DOM nodes without leaving wrapper spans behind
-                const temp_container = document.createElement("span");
-                temp_container.innerHTML = replaced;
-                const doc_fragment = document.createDocumentFragment();
-                while (temp_container.firstChild) {
-                    doc_fragment.appendChild(temp_container.firstChild);
+            if (New_Text !== Orignial_Text) { //make sure we modified the text html
+                
+                const Temp_Container = document.createElement("span");
+                Temp_Container.innerHTML = New_Text;
+                const Doc_Fragment = document.createDocumentFragment();
+                while (Temp_Container.firstChild) {
+                    Doc_Fragment.appendChild(Temp_Container.firstChild);
                 }
-                node.replaceWith(doc_fragment);
+                node.replaceWith(Doc_Fragment);
             }
         });
     });
 }
 
 Inject_CSS = () => { //inject the css into the head of the document
-    const style_name = "phishGuard-highlight-css-1"; //style name to inject (unique to avoid conflicts)
-    if (document.getElementById(style_name)){
+    
+    if (document.getElementById(Style_Name)){
         console.log("CSS already injected/or exits with this name");
         return;
     }
     else {
     const css = document.createElement('style');
-    css.id = style_name;
-    css.textContent = `.${BAD_WORDS_Class} {background-color: darkred; ,color: white;}`; //background vs text color
+    css.id = Style_Name;
+    css.textContent = `
+    .${BAD_WORDS_Class} {
+    background-color: darkred; 
+    color: white;}
+
+    .${WARNING_CLASS} {
+    background-color: black; 
+    color: red ; 
+    padding: 5px; 
+    border-radius: 5px; 
+    margin-top: 5px; 
+    margin-bottom: 5px; 
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    } 
+
+    .${WARNING_CLASS}.visible {
+    opacity: 1;}`;
     (document.head || document.documentElement).appendChild(css); //append to head or document element (wichever is present)
     console.log("CSS injected");
     }
@@ -121,7 +176,7 @@ Scan_Email = () => {
         Highlight_Words(Email_Body,Word_Regex());
     }
     else {
-        console.log("Email Body not found");
+        console.warn("Email Body not found");
         return "No Email found - Open an Email and try again";
     }
 

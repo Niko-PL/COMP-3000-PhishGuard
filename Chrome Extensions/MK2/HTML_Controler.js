@@ -1,7 +1,6 @@
-//here we will control the buttons on the popup.html page
-//it also controlls html
-// it is not injected so does not have access to the DOM
-//changed 
+//here we will control the buttons and UI on the extention.html 
+//it also controlls html on the gmail page
+//changed to version 2.0
 
 document.addEventListener('DOMContentLoaded', () => { // Ensure the external extension DOM is fully loaded
     console.log("DOM Content Loaded");
