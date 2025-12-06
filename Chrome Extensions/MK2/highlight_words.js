@@ -15,7 +15,7 @@ const WARNING_CLASS = "PhishHussar-warning-message";
 let warning_message = null; //global variable for warning message user is hovering over
 
 console.log("Bad Words:", Bad_Words);
-
+console.log("Warnings:", Warnings);
 
 Identify_Hovering_Word = (message,event) => {
     if (!message || !event || !event.target) {
@@ -27,16 +27,23 @@ Identify_Hovering_Word = (message,event) => {
 
 
 Get_Warning_Message = (id) => {
+    console.log("Get_Warning_Message with id: ", id);
+    console.log("Warnings:", Warnings);
     if (Warnings.length > 0) { //if warnings are found return the warning message
+        console.log("Get_Warning_Message found warning: ", Warnings[id]);
         return Warnings[id];
     }
     else { //if no warnings are found return the backup message
+        console.log("Get_Warning_Message no warnings found returning backup message");
         return Warnings_BACKUP;
     }
 }
 
-Show_Warning_Message = () => {
-    console.log("Show_Warning_Message");
+Show_Warning_Message = (message) => {
+    console.log("Show_Warning_Message Target", message.currentTarget);
+    console.log("Show_Warning_Message Location", message.screenX, message.screenY);
+    console.log("Show_Warning_Message doing Identify_Hovering_Word :", Get_Warning_Message(message.currentTarget.getAttribute("warning_id")));
+
     if (warning_message != null && !warning_message.classList.contains("visible")) { //if you can see it then remove it
         warning_message.classList.add("visible");
     }
@@ -52,9 +59,7 @@ Hide_Warning_Message = () => {
 }
 
 Hover_Warning_Message = (message) => {
-    console.log("Hover_Warning_Message Dataset", message.currentTarget.getAttribute("warning_id"));
-    console.log("Hover_Warning_Message Target", message.currentTarget);
-    console.log("Hover_Warning_Message Location", message.screenX, message.screenY);
+    //here we will only update location of warning message
     //Show_Warning_Message(message);
 }
 
@@ -71,7 +76,6 @@ Attach_Warning_Message_Event_Listeners = (rootNode) => {
         
         node.addEventListener("mouseenter",Show_Warning_Message);
         node.addEventListener("mouseleave",Hide_Warning_Message);
-        node.addEventListener("mousemove",Hover_Warning_Message);
         node.dataset.Listner_Active = true;
     });
 }
