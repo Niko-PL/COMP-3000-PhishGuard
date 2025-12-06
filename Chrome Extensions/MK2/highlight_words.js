@@ -17,7 +17,13 @@ let warning_message = null; //global variable for warning message user is hoveri
 console.log("Bad Words:", Bad_Words);
 
 
-
+Identify_Hovering_Word = (message,event) => {
+    if (!message || !event || !event.target) {
+        return;
+    }
+    console.log("Identify_Hovering_Word", message, event);
+    
+}
 
 
 Get_Warning_Message = (id) => {
@@ -31,6 +37,9 @@ Get_Warning_Message = (id) => {
 
 Show_Warning_Message = () => {
     console.log("Show_Warning_Message");
+    if (warning_message != null && !warning_message.classList.contains("visible")) { //if you can see it then remove it
+        warning_message.classList.add("visible");
+    }
 }
 
 
@@ -43,7 +52,10 @@ Hide_Warning_Message = () => {
 }
 
 Hover_Warning_Message = (message) => {
-    Show_Warning_Message(message);
+    console.log("Hover_Warning_Message Dataset", message.currentTarget.getAttribute("warning_id"));
+    console.log("Hover_Warning_Message Target", message.currentTarget);
+    console.log("Hover_Warning_Message Location", message.screenX, message.screenY);
+    //Show_Warning_Message(message);
 }
 
 Attach_Warning_Message_Event_Listeners = (rootNode) => {
@@ -59,6 +71,7 @@ Attach_Warning_Message_Event_Listeners = (rootNode) => {
         
         node.addEventListener("mouseenter",Show_Warning_Message);
         node.addEventListener("mouseleave",Hide_Warning_Message);
+        node.addEventListener("mousemove",Hover_Warning_Message);
         node.dataset.Listner_Active = true;
     });
 }
@@ -137,7 +150,7 @@ Highlight_Words = (body,regex) => { //body == Email_Body <.a3s>
             const New_Text = Orignial_Text.replace(regex, match => {
                 COUNT_BAD_WORDS++;
                 const id = 1
-                return `<span class="${BAD_WORDS_Class}" warning-id="${id}">${match}</span>`;
+                return `<span class="${BAD_WORDS_Class}" warning_id="${id}">${match}</span>`;
             });
 
             if (New_Text !== Orignial_Text) { //make sure we modified the text html
