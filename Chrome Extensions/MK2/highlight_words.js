@@ -1,13 +1,16 @@
+if (!window.PhishHussar_Highlight_Words_Loaded) { //only run once to prevent errors on re-runs
+window.PhishHussar_Highlight_Words_Loaded = true;
 //this is the script that highlights the words in the email body
 
 
-let Bad_Words =  (typeof window !== "undefined" && window.BAD_WORDS) || [];
-let Warnings = (typeof window !== "undefined" && window.Warnings_Mini_DB) || [];
-let Warnings_BACKUP = "Potential Phishing please be careful and verify Sender and Contents (no reason identified)";
 
-let BAD_WORDS_Class = "PhishHussar-highlighted-word";
-let Style_Name = "PhishHussar-highlight-css-1"; //style name to inject (unique to avoid conflicts)
-let WARNING_CLASS = "PhishHussar-warning-message";
+const Bad_Words = (typeof window !== "undefined" && window.BAD_WORDS) || [];
+const Warnings = (typeof window !== "undefined" && window.Warnings_Mini_DB) || [];
+const Warnings_BACKUP = "Potential Phishing please be careful and verify Sender and Contents (no reason identified)";
+
+const BAD_WORDS_Class = "PhishHussar-highlighted-word";
+const Style_Name = "PhishHussar-highlight-css-1"; //style name to inject (unique to avoid conflicts)
+const WARNING_CLASS = "PhishHussar-warning-message";
 
 let warning_message = null; //global variable for warning message user is hovering over
 
@@ -26,10 +29,13 @@ Get_Warning_Message = (id) => {
     }
 }
 
-Show_Warning_Message = (id) => {}
+Show_Warning_Message = () => {
+    console.log("Show_Warning_Message");
+}
 
 
 Hide_Warning_Message = () => {
+    console.log("Hide_Warning_Message");
     if (warning_message != null && warning_message.classList.contains("visible")) { //if you can see it then remove it
         warning_message.classList.remove("visible");
         warning_message = null;
@@ -40,7 +46,22 @@ Hover_Warning_Message = (message) => {
     Show_Warning_Message(message);
 }
 
-Attach_Warning_Message_Event_Listeners = (node) => {}
+Attach_Warning_Message_Event_Listeners = (rootNode) => {
+    if (!rootNode || rootNode.nodeType !== Node.ELEMENT_NODE) {
+        console.warn("Attach_Warning_Message_Event_Listeners: skipping non-element root", rootNode);
+        return;
+    }
+    Highlighted_Words = rootNode.querySelectorAll(`.${BAD_WORDS_Class}`);
+    Highlighted_Words.forEach(node => {
+        if (node.dataset.Listner_Active == true) {
+            return;
+        }
+        
+        node.addEventListener("mouseenter",Show_Warning_Message);
+        node.addEventListener("mouseleave",Hide_Warning_Message);
+        node.dataset.Listner_Active = true;
+    });
+}
 
 
 Word_Regex = () => {
@@ -66,16 +87,16 @@ Word_Regex = () => {
 };
 
 Highlight_Words = (body,regex) => { //body == Email_Body <.a3s> 
-    if (!regex) {
-        console.warn("No regex provided for highlighting");
+    if (!regex || !body || body.length === 0 || regex == null) {
+        console.warn("Lack of regex or body or body is empty or regex is null");
         return;
     }
 
     const roots = (body instanceof NodeList || Array.isArray(body))
-        ? Array.from(body)
-        : (body ? [body] : []);
+        ? Array.from(body) //convert to array if it is a NodeList or Array
+        : (body ? [body] : []); //convert to array if it is a single node
 
-    if (roots.length === 0) {
+    if (roots.length === 0) { //if no roots are found return
         console.warn("Highlight_Words: no body nodes supplied");
         return;
     }
@@ -128,8 +149,11 @@ Highlight_Words = (body,regex) => { //body == Email_Body <.a3s>
                     Doc_Fragment.appendChild(Temp_Container.firstChild);
                 }
                 node.replaceWith(Doc_Fragment);
+
+                
             }
         });
+        Attach_Warning_Message_Event_Listeners(rootNode);
     });
 }
 
@@ -214,3 +238,4 @@ chrome.runtime.onMessage.addListener((Message, sender, sendResponse) => {
     }
     return false; //we respond synchronously so no need to keep the port open
 });
+}

@@ -1,3 +1,5 @@
+
+
 // do not remove any warnings or change the id as it will break the UI
 //you can add more warnings by adding a new [id, warning] to the array
 const Email_Warnings = [
@@ -22,6 +24,8 @@ if (typeof window !== "undefined") { //this globalises the BAD_WORDS variable to
 } else if (typeof self !== "undefined") { 
     self.Warnings_Mini_DB = Warnings_Mini_DB;
 };
+
+
 
 // to call this you are able to just use the ID and get the warning
 // 
