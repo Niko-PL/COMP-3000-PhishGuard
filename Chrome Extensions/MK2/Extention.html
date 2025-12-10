@@ -2,100 +2,7 @@
 <html>
   <head>
     <title>Gmail Logger Mk2</title>
-    <style>
-      body { 
-        font-family: Arial; 
-        width: 350px; 
-        padding: 15px; 
-        text-align: center; 
-        margin: 0;
-      }
-      /* for all input fields */
-      input, select, label { 
-        display: block; 
-        margin: 8px 0; 
-        width: 100%; 
-      }
-      /* for all text input */
-      input[type="text"] {
-        box-sizing: border-box;
-        padding: 6px;
-      }
-      /* for select (drop down) */
-      select { 
-        box-sizing: border-box;
-        width: 50%;
-        padding: 6px;
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-        text-align: center;
-      }
-      /* for number of emails recorded */
-      input[type="number"] {
-        width: 69%;
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-        text-align: center;
-      }
-      button {  /* for all button */
-        padding: 8px; 
-        border: none; 
-        background-color: #5f84ff; 
-        color: white; 
-        border-radius: 6px; 
-        cursor: pointer; 
-        margin-top: 10px;
-      }
-      button:hover {  /* for all button hover */
-        background-color: #053aad; 
-      }
-      #status { /* for status box */
-        margin-top: 10px;
-        min-height: 20px;
-      }
-      #logo { /* for logo */
-        max-width: 64px;
-        max-height: 64px;
-        height: auto;
-        width: auto;
-        margin: 0 10px 0 0;
-        display: block;
-      }
-      h3 {
-        margin: 0;
-        flex: 1;
-        text-align: left;
-      }
-      .settings-button{
-        width: 40px;
-        height: 40px;
-        align-items: center;
-        justify-content: center;
-        display: flex;
-        background-color: #4b5e85;
-        margin-top: 0;
-      }
-      .settings-button:hover{
-        background-color: #161e2e;
-      }
-      .settings-section-hidden{
-        display: none; /* set as hidden to start */
-      }
-      .security-section-hidden{
-        display: none; /* set as hidden to start */
-      }
-      .in-line{ /* for the logo, title, and settings button */
-        display: flex; /* display as flex to align items */
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        width: 100%;
-      }
-
-
-    </style>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div class="in-line">
@@ -108,13 +15,31 @@
     
     <div id="security_section" class="security-section-hidden" aria-hidden="true">
       <h5>Security Settings</h5>
-      <h6>HERE SECURITY SETTINGS</h6>
+      <label>Highlight on Open</label>
+      <div class="switch-row">
+        <h4 class="switch_text_left">NO</h4>
+        <label class="switch">
+          <input type="checkbox" id="highlight_on_open">
+          <span class="slider round"></span>
+        </label>
+        <h4 class="switch_text_right">YES</h4>
+      </div>
+
+      <label>Improve Firebase</label>
+      <div class="switch-row">
+        <h4 class="switch_text_left">NO</h4>
+        <label class="switch">
+          <input type="checkbox" id="improve_firebase">
+          <span class="slider round"></span>
+        </label>
+        <h4 class="switch_text_right">YES</h4>
+      </div>
     </div>
     
     
     <div id= settings_section class="settings-section-hidden" aria-hidden="true" >
       <h5>Keep empty for defaults</h5>
-      <label><input type="checkbox" id="run_on_open"> Run on open</label>
+      
       <label> Sheet ID:</label>
       <input type="text" id="sheetId" placeholder="Enter Google Sheet ID"/>
 
@@ -135,8 +60,9 @@
         <option value="365">1 year</option>
         <option value="0">All time</option>
       </select>
+      <label><input type="checkbox" id="clear_sheet"> Clear previous data</label>
     </div>
-    <label><input type="checkbox" id="clear_sheet"> Clear previous data</label>
+    
 
     <button id="run_scraper">Scrape Emails</button>
     <button id="run_highlighter">Highlight Words</button>

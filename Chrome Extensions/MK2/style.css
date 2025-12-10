@@ -1,3 +1,187 @@
-.highlighted-word {
-    background-color: red;
+/* Popup layout */
+body {
+  font-family: Arial;
+  width: 350px;
+  padding: 15px;
+  text-align: center;
+  margin: 0;
+}
+
+/* Inputs */
+input,
+select,
+label {
+  display: block;
+  margin: 8px 0;
+  width: 100%;
+}
+
+input[type="text"] {
+  box-sizing: border-box;
+  padding: 6px;
+}
+
+select {
+  box-sizing: border-box;
+  width: 50%;
+  padding: 6px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  text-align: center;
+}
+
+input[type="number"] {
+  width: 69%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  text-align: center;
+}
+
+/* Buttons */
+button {
+  padding: 8px;
+  border: none;
+  background-color: #5f84ff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #053aad;
+}
+
+#status {
+  margin-top: 10px;
+  min-height: 20px;
+}
+
+/* Header */
+#logo {
+  max-width: 64px;
+  max-height: 64px;
+  height: auto;
+  width: auto;
+  margin: 0 10px 0 0;
+  display: block;
+}
+
+h3 {
+  margin: 0;
+  flex: 1;
+  text-align: left;
+}
+
+.settings-button {
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  background-color: #4b5e85;
+  margin-top: 0;
+}
+
+.settings-button:hover {
+  background-color: #161e2e;
+}
+
+.settings-section-hidden {
+  display: none;
+}
+
+.security-section-hidden {
+  display: none;
+}
+
+.in-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+/* switch text */
+
+.switch_text_left {
+  text-align: right;
+  margin: 0;
+}
+
+.switch_text_right {
+  text-align: left;
+  margin: 0;
+}
+
+/* compact switch row */
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: auto;
+}
+
+/* cool switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 26px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 26px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 18px;
+  left: 4px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(44px);
+}
+
+.slider.round {
+  border-radius: 26px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
         const Clear_Sheet = document.getElementById("clear_sheet");
         const Time_Range = document.getElementById("time_range");
 
+        const Highlight_On_Open = document.getElementById("highlight_on_open");
+        const Improve_Firebase = document.getElementById("improve_firebase");
 
 
 
@@ -47,6 +49,8 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
             Emails_Recorded: Emails_Recorded.value,
             Clear_Sheet: Clear_Sheet.checked,
             Time_Range: Time_Range.value,
+
+            Improve_Firebase: Improve_Firebase.checked,
         };
         try {
             chrome.storage.sync.set(Settings_Cookie);
@@ -61,12 +65,14 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
     const Load_Settings = () => {
         chrome.storage.sync.get((Cookie_Data) => {
             console.log("Settings loaded:", Cookie_Data);
-            Run_On_Open.checked = Cookie_Data.Run_On_Open || false;
             Sheet_ID.value = Cookie_Data.Sheet_ID || "";
             Sheet_Name.value = Cookie_Data.Sheet_Name || "";
             Emails_Recorded.value = Cookie_Data.Emails_Recorded || 20;
             Clear_Sheet.checked = Cookie_Data.Clear_Sheet || false;
             Time_Range.value = Cookie_Data.Time_Range || "7";
+
+            Highlight_On_Open.checked = Cookie_Data.Highlight_On_Open || false;
+            Improve_Firebase.checked = Cookie_Data.Improve_Firebase || false;
         });
     }
 
@@ -81,12 +87,12 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
 
 
    
-    if (!Run_On_Open) {
-        console.error("Run on open checkbox not found!");
+    if (!Highlight_On_Open) {
+        console.error("Highlight on open checkbox not found!");
         return;
     }
     else{
-        console.log("Run on open checkbox found");
+        console.log("Highlight on open checkbox found");
     }
 
 
@@ -343,7 +349,8 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
     Sheet_Name.addEventListener("input", Save_Settings);
     Clear_Sheet.addEventListener("change", Save_Settings);
     Time_Range.addEventListener("change", Save_Settings);
-    Run_On_Open.addEventListener("change", Save_Settings);
+    Highlight_On_Open.addEventListener("change", Save_Settings);
+    Improve_Firebase.addEventListener("change", Save_Settings);
 
     console.log("Buttons and status loaded and event listeners added");
     Load_Settings();
