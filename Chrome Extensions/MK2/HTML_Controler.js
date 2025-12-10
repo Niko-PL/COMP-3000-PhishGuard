@@ -8,15 +8,94 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
 
 
 
+        //load all the buttones for main ui
+        const Button_HTML = document.getElementById("run_getHTML");
+        const Button_Highlight = document.getElementById("run_highlighter");
+        const Button_Scraper = document.getElementById("run_scraper");
+        const Status = document.getElementById("status");
+        let tabID = null;
+
+        const Settings_Button = document.getElementById("settings_button");
+        const Settings_Section = document.getElementById("settings_section");
+
+        const Security_Button = document.getElementById("security_button");
+        const Security_Section = document.getElementById("security_section");
+
+
+        //inside settings section data laoded
+        const Run_On_Open = document.getElementById("run_on_open");
+        const Sheet_ID = document.getElementById("sheetId");
+        const Sheet_Name = document.getElementById("sheet_name");
+        const Emails_Recorded = document.getElementById("emails_recorded");
+        const Clear_Sheet = document.getElementById("clear_sheet");
+        const Time_Range = document.getElementById("time_range");
+
+
+
+
+
+    //settings cookies  contorleer
+    //------------------------------------------------------------------
+    //settings cookies will be used to store the settings for the extension
+    //------------------------------------------------------------------
+
+    const Save_Settings = () => {
+        const Settings_Cookie = {
+            Run_On_Open: Run_On_Open.checked,
+            Sheet_ID: Sheet_ID.value,
+            Sheet_Name: Sheet_Name.value,
+            Emails_Recorded: Emails_Recorded.value,
+            Clear_Sheet: Clear_Sheet.checked,
+            Time_Range: Time_Range.value,
+        };
+        try {
+            chrome.storage.sync.set(Settings_Cookie);
+            console.log("Settings saved");
+        }
+        catch (error) {
+            console.error("Error saving settings:", error);
+            return;
+        }
+    }
+
+    const Load_Settings = () => {
+        chrome.storage.sync.get((Cookie_Data) => {
+            console.log("Settings loaded:", Cookie_Data);
+            Run_On_Open.checked = Cookie_Data.Run_On_Open || false;
+            Sheet_ID.value = Cookie_Data.Sheet_ID || "";
+            Sheet_Name.value = Cookie_Data.Sheet_Name || "";
+            Emails_Recorded.value = Cookie_Data.Emails_Recorded || 20;
+            Clear_Sheet.checked = Cookie_Data.Clear_Sheet || false;
+            Time_Range.value = Cookie_Data.Time_Range || "7";
+        });
+    }
+
+
+
+
+    //run on start checkbox contorleer
+    //------------------------------------------------------------------
+    //run on open checkbox will run the extension open  of gmail email
+    //------------------------------------------------------------------
+
+
+
+   
+    if (!Run_On_Open) {
+        console.error("Run on open checkbox not found!");
+        return;
+    }
+    else{
+        console.log("Run on open checkbox found");
+    }
+
+
+
     //settings UI contorleer
     //------------------------------------------------------------------
     //in the future simplify this section as you use the same code innit
     //------------------------------------------------------------------
-    const Settings_Button = document.getElementById("settings_button");
-    const Settings_Section = document.getElementById("settings_section");
-
-    const Security_Button = document.getElementById("security_button");
-    const Security_Section = document.getElementById("security_section");
+    
 
     if (!Settings_Button || !Settings_Section) { //if settings button or section not found, exit
         console.error("Settings button or section not found!");
@@ -88,12 +167,7 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
    
 
 
-    //buttons and status contorleer
-    const Button_HTML = document.getElementById("run_getHTML");
-    const Button_Highlight = document.getElementById("run_highlighter");
-    const Button_Scraper = document.getElementById("run_scraper");
-    const Status = document.getElementById("status");
-    let tabID = null;
+
 
     //buttons contorleer
     if (!Button_HTML || !Button_Highlight || !Button_Scraper || !Status) {
@@ -114,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
         }
     }
 
-    Update_Status("--READY FOR ACTION--");
+    
    
     const Inject_Script = (tabID) => { //function to inject the scripts into the tab
         return new Promise((resolve) => {
@@ -232,10 +306,16 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
             Update_Status("Error injecting scripts", true, true);
             return null;
         }
+
+
     }
 
-    
+    //all the evnet listeners for the buttons and settings
+    //------------------------------------------------------------------
+    //These guys do the listenting
+    //------------------------------------------------------------------
 
+    
     Button_HTML.addEventListener("click", () => {
         Update_Status("<MAIN> Initiating...", true,true);
         MAIN(); //inject the scripts into the tab
@@ -258,7 +338,16 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
     
     Settings_Button.addEventListener("click", Settings_Expander); //add event listener to the settings button (little cog)
     Security_Button.addEventListener("click", Security_Expander); //add event listener to the security button (little shield)
+
+    Sheet_ID.addEventListener("input", Save_Settings);
+    Sheet_Name.addEventListener("input", Save_Settings);
+    Clear_Sheet.addEventListener("change", Save_Settings);
+    Time_Range.addEventListener("change", Save_Settings);
+    Run_On_Open.addEventListener("change", Save_Settings);
+
     console.log("Buttons and status loaded and event listeners added");
+    Load_Settings();
+    Update_Status("--READY FOR ACTION--");
 });
 
 

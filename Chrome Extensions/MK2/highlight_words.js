@@ -77,7 +77,7 @@ Hover_Warning_Message = (event) => { //only update location of warning message
     console.log("Hover_Warning_Message Target", event.currentTarget);
     console.log("Hover_Warning_Message Location", event.screenX, event.screenY);
     const X_Location = event.screenX - 30 + "px";
-    const Y_Location = event.screenY - 100 + "px";
+    const Y_Location = event.screenY - 105 + "px";
     console.log("Hover_Warning_Message X_Location", X_Location);
     console.log("Hover_Warning_Message Y_Location", Y_Location);
     Warning_Message_Div.style.left = X_Location;
@@ -211,7 +211,7 @@ Inject_CSS = () => { //inject the css into the head of the document
     color: white;}
 
     .${WARNING_CLASS} {
-    background-color: rgba(0, 0, 0, 0.36); 
+    background-color: rgba(0, 0, 0, 0.64); 
     color: rgb(255, 0, 0) ; 
     padding: 2px; 
     border-radius: 2px; 
