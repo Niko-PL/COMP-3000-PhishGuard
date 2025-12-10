@@ -7,12 +7,12 @@ window.PhishHussar_Highlight_Words_Loaded = true;
 const Bad_Words = (typeof window !== "undefined" && window.BAD_WORDS) || [];
 const Warnings = (typeof window !== "undefined" && window.Warnings_Mini_DB) || [];
 const Warnings_BACKUP = "Potential Phishing please be careful and verify Sender and Contents (no reason identified)";
-
+let Warnings_Current = Warnings_BACKUP; //global variable for current warning message
 const BAD_WORDS_Class = "PhishHussar-highlighted-word";
 const Style_Name = "PhishHussar-highlight-css-1"; //style name to inject (unique to avoid conflicts)
 const WARNING_CLASS = "PhishHussar-warning-message";
 
-let warning_message = null; //global variable for warning message user is hovering over
+let Warning_Message_Div = null; //global variable for warning message user is hovering over
 
 console.log("Bad Words:", Bad_Words);
 console.log("Warnings:", Warnings);
@@ -25,17 +25,32 @@ Identify_Hovering_Word = (message,event) => {
     
 }
 
+Check_Warning_Message_Existance = (warning_message) => {
+    if (Warning_Message_Div && document.body.contains(Warning_Message_Div)) {
+        return Warning_Message_Div;
+    }
+    else {
+        Warning_Message_Div = document.createElement("div");
+        Warning_Message_Div.id = (WARNING_CLASS); //get the css related to the warning message
+        Warning_Message_Div.className = WARNING_CLASS;
+        Warning_Message_Div.textContent = warning_message;
+        document.body.appendChild(Warning_Message_Div);
+        return Warning_Message_Div;
+    }
+
+}
 
 Get_Warning_Message = (id) => {
     console.log("Get_Warning_Message with id: ", id);
     console.log("Warnings:", Warnings);
-    if (Warnings.length > 0) { //if warnings are found return the warning message
+    if (Warnings.keys.length > 0) { //if warnings are found return the warning message
         console.log("Get_Warning_Message found warning: ", Warnings[id]);
-        return Warnings[id];
+        Warnings_Current = Warnings[id];
+        return Warnings_Current;
     }
     else { //if no warnings are found return the backup message
         console.log("Get_Warning_Message no warnings found returning backup message");
-        return Warnings_BACKUP;
+        return Warnings_Current = Warnings_BACKUP;
     }
 }
 
@@ -43,24 +58,37 @@ Show_Warning_Message = (message) => {
     console.log("Show_Warning_Message Target", message.currentTarget);
     console.log("Show_Warning_Message Location", message.screenX, message.screenY);
     console.log("Show_Warning_Message doing Identify_Hovering_Word :", Get_Warning_Message(message.currentTarget.getAttribute("warning_id")));
-
-    if (warning_message != null && !warning_message.classList.contains("visible")) { //if you can see it then remove it
-        warning_message.classList.add("visible");
+    let Warning_Message_Div = Check_Warning_Message_Existance(Get_Warning_Message(message.currentTarget.getAttribute("warning_id"))); //get the warning message div
+    if (Warning_Message_Div != null && !Warning_Message_Div.classList.contains("visible")) { //if you can see it then remove it
+        Warning_Message_Div.classList.add("visible");
     }
 }
 
 
 Hide_Warning_Message = () => {
     console.log("Hide_Warning_Message");
-    if (warning_message != null && warning_message.classList.contains("visible")) { //if you can see it then remove it
-        warning_message.classList.remove("visible");
-        warning_message = null;
+    if (Warning_Message_Div != null && Warning_Message_Div.classList.contains("visible")) { //if you can see it then remove it
+        Warning_Message_Div.classList.remove("visible");
+        Warning_Message_Div = null;
     }
 }
 
-Hover_Warning_Message = (message) => {
-    //here we will only update location of warning message
-    //Show_Warning_Message(message);
+Hover_Warning_Message = (message) => { //only update location of warning message
+    console.log("Hover_Warning_Message Target", message.currentTarget);
+    console.log("Hover_Warning_Message Location", message.screenX, message.screenY);
+    console.log("Hover_Warning_Message doing Identify_Hovering_Word :", Get_Warning_Message(message.currentTarget.getAttribute("warning_id")));
+    const X_Location = message.screenX + "10px";
+    const Y_Location = message.screenY + "10px";
+    if (Warning_Message_Div != null && Warning_Message_Div.classList.contains("visible")) { //if you can see it then remove it
+        Warning_Message_Div.classList.add("visible");
+    }
+    else {
+        Warning_Message_Div = Check_Warning_Message_Existance(); //get the warning message div
+        Warning_Message_Div.classList.add("visible");
+    }
+    
+    Warning_Message_Div.style.left = X_Location;
+    Warning_Message_Div.style.top = Y_Location;
 }
 
 Attach_Warning_Message_Event_Listeners = (rootNode) => {
@@ -75,6 +103,7 @@ Attach_Warning_Message_Event_Listeners = (rootNode) => {
         }
         
         node.addEventListener("mouseenter",Show_Warning_Message);
+        node.addEventListener("mousemove",Hover_Warning_Message);
         node.addEventListener("mouseleave",Hide_Warning_Message);
         node.dataset.Listner_Active = true;
     });

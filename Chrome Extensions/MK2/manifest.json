@@ -1,8 +1,8 @@
 {
 "manifest_version": 3,
   "name": "Phish-Hussar MK2",
-  "description": "Version MK2 1.2 ",
-  "version": "1.2",
+  "description": "Version MK2 1.4 ",
+  "version": "1.4",
   "icons": {
     "16": "images/Guard_MK1.png",
     "32": "images/Guard_MK1.png",
@@ -17,7 +17,7 @@
   "content_scripts": [
     {
       "matches": ["https://mail.google.com/*"],
-      "js": ["test.js","Highlight_Words.js"]
+      "js": ["test.js","highlight_words.js" ,"Bad_Words_List.js","Warnings_List.js"]
     }
   ],
   "action": 
