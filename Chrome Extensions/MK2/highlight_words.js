@@ -42,8 +42,8 @@ Check_Warning_Message_Existance = (warning_message) => {
 
 Get_Warning_Message = (id) => {
     console.log("Get_Warning_Message with id: ", id);
-    console.log("Warnings:", Warnings);
-    if (Warnings.keys.length > 0) { //if warnings are found return the warning message
+    console.log("Get_Warning_Message Warnings are : ", Warnings);
+    if (Object.keys(Warnings).length > 0 && Warnings[id] != null) { //if warnings are found return the warning message
         console.log("Get_Warning_Message found warning: ", Warnings[id]);
         Warnings_Current = Warnings[id];
         return Warnings_Current;
@@ -73,27 +73,20 @@ Hide_Warning_Message = () => {
     }
 }
 
-Hover_Warning_Message = (message) => { //only update location of warning message
-    console.log("Hover_Warning_Message Target", message.currentTarget);
-    console.log("Hover_Warning_Message Location", message.screenX, message.screenY);
-    console.log("Hover_Warning_Message doing Identify_Hovering_Word :", Get_Warning_Message(message.currentTarget.getAttribute("warning_id")));
-    const X_Location = message.screenX + "10px";
-    const Y_Location = message.screenY + "10px";
-    if (Warning_Message_Div != null && Warning_Message_Div.classList.contains("visible")) { //if you can see it then remove it
-        Warning_Message_Div.classList.add("visible");
-    }
-    else {
-        Warning_Message_Div = Check_Warning_Message_Existance(); //get the warning message div
-        Warning_Message_Div.classList.add("visible");
-    }
-    
+Hover_Warning_Message = (event) => { //only update location of warning message
+    console.log("Hover_Warning_Message Target", event.currentTarget);
+    console.log("Hover_Warning_Message Location", event.screenX, event.screenY);
+    const X_Location = event.screenX - 30 + "px";
+    const Y_Location = event.screenY - 100 + "px";
+    console.log("Hover_Warning_Message X_Location", X_Location);
+    console.log("Hover_Warning_Message Y_Location", Y_Location);
     Warning_Message_Div.style.left = X_Location;
     Warning_Message_Div.style.top = Y_Location;
 }
 
 Attach_Warning_Message_Event_Listeners = (rootNode) => {
     if (!rootNode || rootNode.nodeType !== Node.ELEMENT_NODE) {
-        console.warn("Attach_Warning_Message_Event_Listeners: skipping non-element root", rootNode);
+        console.log("Attach_Warning_Message_Event_Listeners: skipping non-element root", rootNode);
         return;
     }
     Highlighted_Words = rootNode.querySelectorAll(`.${BAD_WORDS_Class}`);
@@ -134,7 +127,7 @@ Word_Regex = () => {
 
 Highlight_Words = (body,regex) => { //body == Email_Body <.a3s> 
     if (!regex || !body || body.length === 0 || regex == null) {
-        console.warn("Lack of regex or body or body is empty or regex is null");
+        console.log("Lack of regex or body or body is empty or regex is null");
         return;
     }
 
@@ -143,13 +136,13 @@ Highlight_Words = (body,regex) => { //body == Email_Body <.a3s>
         : (body ? [body] : []); //convert to array if it is a single node
 
     if (roots.length === 0) { //if no roots are found return
-        console.warn("Highlight_Words: no body nodes supplied");
+        console.log("Highlight_Words: no body nodes supplied");
         return;
     }
 
     roots.forEach(rootNode => {
         if (!(rootNode instanceof Node)) {
-            console.warn("Highlight_Words: skipping non-node root", rootNode);
+            console.log("Highlight_Words: skipping non-node root", rootNode);
             return;
         }
 
@@ -218,15 +211,21 @@ Inject_CSS = () => { //inject the css into the head of the document
     color: white;}
 
     .${WARNING_CLASS} {
-    background-color: black; 
-    color: red ; 
-    padding: 5px; 
-    border-radius: 5px; 
-    margin-top: 5px; 
-    margin-bottom: 5px; 
+    background-color: rgba(0, 0, 0, 0.36); 
+    color: rgb(255, 0, 0) ; 
+    padding: 2px; 
+    border-radius: 2px; 
+    margin-top: 2px; 
+    margin-bottom: 2px; 
+    text-size: 15px;
     text-align: center;
     opacity: 0;
     transition: opacity 0.3s ease;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    left: 0;
+    top: 0; 
     } 
 
     .${WARNING_CLASS}.visible {
@@ -246,7 +245,7 @@ Scan_Email = () => {
         Highlight_Words(Email_Body,Word_Regex());
     }
     else {
-        console.warn("Email Body not found");
+        console.log("Email Body not found");
         return "No Email found - Open an Email and try again";
     }
 
