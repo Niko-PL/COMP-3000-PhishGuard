@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
 
         const Highlight_On_Open = document.getElementById("highlight_on_open");
         const Improve_Firebase = document.getElementById("improve_firebase");
+        const Use_AI = document.getElementById("use_ai");
 
 
 
@@ -43,14 +44,16 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
 
     const Save_Settings = () => {
         const Settings_Cookie = {
-            Run_On_Open: Run_On_Open.checked,
+            
             Sheet_ID: Sheet_ID.value,
             Sheet_Name: Sheet_Name.value,
             Emails_Recorded: Emails_Recorded.value,
             Clear_Sheet: Clear_Sheet.checked,
             Time_Range: Time_Range.value,
 
+            Highlight_On_Open: Highlight_On_Open.checked,
             Improve_Firebase: Improve_Firebase.checked,
+            Use_AI: Use_AI.checked,
         };
         try {
             chrome.storage.sync.set(Settings_Cookie);
@@ -73,6 +76,8 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
 
             Highlight_On_Open.checked = Cookie_Data.Highlight_On_Open || false;
             Improve_Firebase.checked = Cookie_Data.Improve_Firebase || false;
+            Use_AI.checked = Cookie_Data.Use_AI || false;
+
         });
     }
 
@@ -351,6 +356,7 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure the external ext
     Time_Range.addEventListener("change", Save_Settings);
     Highlight_On_Open.addEventListener("change", Save_Settings);
     Improve_Firebase.addEventListener("change", Save_Settings);
+    Use_AI.addEventListener("change", Save_Settings);
 
     console.log("Buttons and status loaded and event listeners added");
     Load_Settings();
